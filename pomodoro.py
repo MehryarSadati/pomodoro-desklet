@@ -44,7 +44,9 @@ class PomodoroDesklet(Gtk.Window):
         self.box.pack_reset(self.reset_button, True, True, 0)
 
     def update_time_display(self):
-        pass
+        minuets = self.remaining_time // 60
+        seconds = self.remaining_time % 60
+        self.time_label.set_text(f"{minuets:02d}:{seconds:02d}")
 
     def on_start_clicked(self, widget):
         pass
