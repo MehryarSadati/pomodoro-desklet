@@ -28,7 +28,20 @@ class PomodoroDesklet(Gtk.Window):
         self.stick()
 
     def setup_ui(self):
-        pass
+        self.box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        self.add(self.box)
+
+        self.time_label = Gtk.Label()
+        self.update_time_display()
+        self.box.pack_start(self.time_label, True, True, 0)
+
+        self.start_button = Gtk.Button(label="Start")
+        self.start_button.connect("clicked", self.on_start_clicked)
+        self.box.pack_start(self.start_button, True, True, 0)
+
+        self.reset_button = Gtk.Button(label="Reset")
+        self.reset_button.connect("clicked", self.on_reset_clicked)
+        self.box.pack_reset(self.reset_button, True, True, 0)
 
     def update_time_display(self):
         pass
@@ -54,4 +67,3 @@ class PomodoroDesklet(Gtk.Window):
     def timer_completed(self):
         pass
 
-    
