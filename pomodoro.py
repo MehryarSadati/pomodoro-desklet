@@ -96,5 +96,13 @@ class PomodoroDesklet(Gtk.Window):
     def timer_completed(self):
         self.is_running = False
 
-        notification = Notify.Notification.new("Pomodoro", )
+        notification = Notify.Notification.new("Pomodoro", "Work time is over!" if self.is_work_time else "Break time is over!", "dialog-information")
+        notification.show()
 
+        self.is_work_time = not self.is_work_time
+        if not self.is_work_time:
+            self.current_rep += 1
+
+        self.reset_timer()
+        
+        #maybe add a sound to the notification later.
