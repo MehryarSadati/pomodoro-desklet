@@ -1,14 +1,15 @@
+#!/usr/bin/env python3
 import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('Notify', '0.7')
-from gi.repository import Gtk, Glib, Notify
+from gi.repository import Gtk, GLib, Notify
 import time
 
 class PomodoroDesklet(Gtk.Window):
-    def __init___(self):
+    def __init__(self):
         super().__init__(title="Pomodoro Timer")
 
-        Notify.init("Pomodro Desklet")
+        Notify.init("Pomodoro Desklet")
 
         #setting the default mode
         self.work_duration = 25 * 60
@@ -41,7 +42,7 @@ class PomodoroDesklet(Gtk.Window):
 
         self.reset_button = Gtk.Button(label="Reset")
         self.reset_button.connect("clicked", self.on_reset_clicked)
-        self.box.pack_reset(self.reset_button, True, True, 0)
+        self.box.pack_start(self.reset_button, True, True, 0)
 
     def update_time_display(self):
         minuets = self.remaining_time // 60
@@ -62,12 +63,12 @@ class PomodoroDesklet(Gtk.Window):
     def start_timer(self):
         if not self.is_running:
             self.is_running = True
-            self.timeout_id = Glib.timeout_add_seconds(1, self.on_timer_tick)
+            self.timeout_id = GLib.timeout_add_seconds(1, self.on_timer_tick)
 
     def pause_timer(self):
         if self.is_running:
             self.is_running = False
-            Glib.source_remove(self.timeout_id)
+            GLib.source_remove(self.timeout_id)
 
     def reset_timer(self):
         self.pause_timer()
