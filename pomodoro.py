@@ -49,7 +49,12 @@ class PomodoroDesklet(Gtk.Window):
         self.time_label.set_text(f"{minuets:02d}:{seconds:02d}")
 
     def on_start_clicked(self, widget):
-        pass
+        if not self.is_running:
+            self.start_timer()
+            self.start_button.set_label("Pause")
+        else:
+            self.pause_timer()
+            self.start_button.set_label("Start")
 
     def on_reset_clicked(self, widget):
         pass
