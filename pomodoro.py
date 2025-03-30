@@ -83,8 +83,18 @@ class PomodoroDesklet(Gtk.Window):
         self.start_button.set_label("Start")
 
     def on_timer_tick(self):
-        pass
+        if self.is_running:
+            self.remaining_time -= 1
+            self.update_time_display()
+
+            if self.remaining_time <= 0:
+                self.timer_completed()
+                return False
+        
+        return True
 
     def timer_completed(self):
-        pass
+        self.is_running = False
+
+        notification = Notify.Notification.new("Pomodoro", )
 
