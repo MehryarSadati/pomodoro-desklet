@@ -57,7 +57,7 @@ class PomodoroDesklet(Gtk.Window):
             self.start_button.set_label("Start")
 
     def on_reset_clicked(self, widget):
-        pass
+        self.reset_timer()
 
     def start_timer(self):
         pass
