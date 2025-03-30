@@ -70,7 +70,17 @@ class PomodoroDesklet(Gtk.Window):
             Glib.source_remove(self.timeout_id)
 
     def reset_timer(self):
-        pass
+        self.pause_timer()
+        if self.is_work_time:
+            self.remaining_time = self.work_duration
+        else:
+            if self.current_rep % self.reps_before_long_break == 0:
+                self.remaining_time = self.long_break
+            else:
+                self.remaining_time = self.short_break
+
+        self.update_time_display()
+        self.start_button.set_label("Start")
 
     def on_timer_tick(self):
         pass
