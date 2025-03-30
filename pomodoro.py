@@ -106,3 +106,9 @@ class PomodoroDesklet(Gtk.Window):
         self.reset_timer()
         
         #maybe add a sound to the notification later.
+
+if __name__ == "__main__":
+    window = PomodoroDesklet()
+    window.connect("destroy", Gtk.main_quit)
+    window.show_all()
+    Gtk.main()
