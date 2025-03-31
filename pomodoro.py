@@ -120,8 +120,6 @@ class PomodoroDesklet(Gtk.Window):
         self.reset_timer()
         SOUND.play()
 
-        # maybe add a sound to the notification later.
-
 
 if __name__ == "__main__":
     window = PomodoroDesklet()
