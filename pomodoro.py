@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 import gi
-gi.require_version('Gtk', '3.0')
-gi.require_version('Notify', '0.7')
+
+gi.require_version("Gtk", "3.0")
+gi.require_version("Notify", "0.7")
 from gi.repository import Gtk, GLib, Notify
 import time
+
 
 class PomodoroDesklet(Gtk.Window):
     def __init__(self):
@@ -11,15 +13,15 @@ class PomodoroDesklet(Gtk.Window):
 
         Notify.init("Pomodoro Desklet")
 
-        #setting the default mode
+        # setting the default mode
         self.work_duration = 25 * 60
         self.short_break = 5 * 60
         self.long_break = 20 * 60
         self.reps_before_long_break = 4
-        self.current_rep = 0
 
-        self.remaining_time = 0
+        self.current_rep = 0
         self.is_running = False
+        self.remaining_time = self.work_duration
         self.is_work_time = True
 
         self.setup_ui()
@@ -91,13 +93,17 @@ class PomodoroDesklet(Gtk.Window):
             if self.remaining_time <= 0:
                 self.timer_completed()
                 return False
-        
+
         return True
 
     def timer_completed(self):
         self.is_running = False
 
-        notification = Notify.Notification.new("Pomodoro", "Work time is over!" if self.is_work_time else "Break time is over!", "dialog-information")
+        notification = Notify.Notification.new(
+            "Pomodoro",
+            "Work time is over!" if self.is_work_time else "Break time is over!",
+            "dialog-information",
+        )
         notification.show()
 
         self.is_work_time = not self.is_work_time
@@ -105,8 +111,9 @@ class PomodoroDesklet(Gtk.Window):
             self.current_rep += 1
 
         self.reset_timer()
-        
-        #maybe add a sound to the notification later.
+
+        # maybe add a sound to the notification later.
+
 
 if __name__ == "__main__":
     window = PomodoroDesklet()
