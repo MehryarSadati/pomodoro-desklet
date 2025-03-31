@@ -5,6 +5,10 @@ gi.require_version("Gtk", "3.0")
 gi.require_version("Notify", "0.7")
 from gi.repository import Gtk, GLib, Notify
 import time
+from pygame import mixer
+
+mixer.init()
+SOUND = mixer.Sound("beep.wav")
 
 
 class PomodoroDesklet(Gtk.Window):
@@ -66,14 +70,17 @@ class PomodoroDesklet(Gtk.Window):
         if not self.is_running:
             self.is_running = True
             self.timeout_id = GLib.timeout_add_seconds(1, self.on_timer_tick)
+            SOUND.play()
 
     def pause_timer(self):
         if self.is_running:
             self.is_running = False
             GLib.source_remove(self.timeout_id)
+            SOUND.play()
 
     def reset_timer(self):
         self.pause_timer()
+        SOUND.play()
         if self.is_work_time:
             self.remaining_time = self.work_duration
         else:
@@ -111,6 +118,7 @@ class PomodoroDesklet(Gtk.Window):
             self.current_rep += 1
 
         self.reset_timer()
+        SOUND.play()
 
         # maybe add a sound to the notification later.
 
