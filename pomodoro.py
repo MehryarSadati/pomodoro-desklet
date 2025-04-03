@@ -21,22 +21,38 @@ class Setting(Gtk.Dialog):
     def create_ui(self):
         grid = Gtk.Grid(column_spacing=12, row_spacing=12, margin=12)
 
-        #work duration button
-        work_label = Gtk.Label(label="Work Duration (minuets):")
+        #work duration
+        work_label = Gtk.Label(label="Work Duration (minuets):", xalign=0)
         self.work_spin = Gtk.SpinButton.new_with_range(1, 60, 1)
         self.work_spin.set_value(self.config['work_duration'] / 60)
+        grid.attach(work_label, 0, 0, 1, 1)
+        grid.attach(self.work_spin, 1, 0, 1, 1)
         
         #short break button
-        short_break_label = Gtk.Label(label="Short Break Duration (minuets):")
-        self.work_spin = Gtk.SpinButton.new_with_range(1, 60, 1)
-        self.work_spin.set_value(self.config['short_break'] / 60)
+        short_break_label = Gtk.Label(label="Short Break Duration (minuets):", xalign=0)
+        self.short_break_spin = Gtk.SpinButton.new_with_range(1, 60, 1)
+        self.short_break_spin.set_value(self.config['short_break'] / 60)
+        grid.attach(short_break_label, 0, 1, 1, 1)
+        grid.attach(self.short_break_spin, 1, 1, 1, 1)
 
         #long break button
-        long_break_label = Gtk.Label(label="Long Break Duration (minuets):")
-        self.work_spin = Gtk.SpinButton.new_with_range(1, 60, 1)
-        self.work_spin.set_value(self.config['long_break'] / 60)
+        long_break_label = Gtk.Label(label="Long Break Duration (minuets):", xalign=0)
+        self.long_break_spin = Gtk.SpinButton.new_with_range(1, 60, 1)
+        self.long_break_spin.set_value(self.config['long_break'] / 60)
+        grid.attach(long_break_label, 0, 2, 1, 1)
+        grid.attach(self.long_break_spin, 1, 2, 1, 1)
 
+        self.get_content_area().add(grid)
+
+        self.add_button("_Cancel", Gtk.ResponseType.CANCEL)
         self.add_button("_Apply", Gtk.ResponseType.APPLY)
+
+    def get_updated_config(self):
+        return {
+            'work_duration' : self.work_spin.get_value() * 60, 
+            'short_break' : self.short_break_spin.get_value() *60,
+            'long_break' : self.long_break_spin.get_value() *60
+        }
 
 class PomodoroDesklet(Gtk.Window):
     def __init__(self):
