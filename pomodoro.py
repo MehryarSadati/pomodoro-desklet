@@ -28,13 +28,14 @@ class Setting(Gtk.Dialog):
         #short break button
         short_break_label = Gtk.Label(label="Short Break Duration (minuets):")
         self.work_spin = Gtk.SpinButton.new_with_range(1, 60, 1)
-        self.work_spin.set_value(self.config['short_break_duration'] / 60)
+        self.work_spin.set_value(self.config['short_break'] / 60)
 
         #long break button
         long_break_label = Gtk.Label(label="Long Break Duration (minuets):")
         self.work_spin = Gtk.SpinButton.new_with_range(1, 60, 1)
-        self.work_spin.set_value(self.config['long_break_duration'] / 60)
+        self.work_spin.set_value(self.config['long_break'] / 60)
 
+        self.add_button("_Apply", Gtk.ResponseType.APPLY)
 
 class PomodoroDesklet(Gtk.Window):
     def __init__(self):
@@ -75,6 +76,9 @@ class PomodoroDesklet(Gtk.Window):
         self.reset_button.connect("clicked", self.on_reset_clicked)
         self.box.pack_start(self.reset_button, True, True, 0)
 
+        self.setting_button = Gtk.Button.new_from_icone_name("preferences-system-symbolic", Gtk.IconSize.BUTTON)
+        self.setting_button.connect("clicked", self.on_settings_clicked)
+
     def update_time_display(self):
         minuets = self.remaining_time // 60
         seconds = self.remaining_time % 60
@@ -90,6 +94,15 @@ class PomodoroDesklet(Gtk.Window):
 
     def on_reset_clicked(self, widget):
         self.reset_timer()
+
+    def on_settings_clicked(self, widget):
+        dialog = SettingsDialog(self, self.get_current_config())
+        response = dialog.run()
+
+        if response == Gtk.ResponseType.APPLY:
+            self.apply_new_settings(dialog.get_updated_config())
+
+        dialog.destroy()
 
     def start_timer(self):
         if not self.is_running:
@@ -144,6 +157,16 @@ class PomodoroDesklet(Gtk.Window):
 
         self.reset_timer()
         SOUND.play()
+
+    def get_current_config(self):
+        return {
+            'work_duration' : self.work_duration,
+            'short_break' : self.short_break, 
+            'long_break' : self.long_break
+        }
+    
+    def apply_new_settings(self, new_config):
+        pass
 
 
 if __name__ == "__main__":
