@@ -10,6 +10,15 @@ from pygame import mixer
 mixer.init()
 SOUND = mixer.Sound("beep.wav")
 
+class Setting(Gtk.Dialog):
+    def __init__(self, parent, config):
+        super.__init__(title="Setting", transient_for=parent, flag=0)
+        self.config = config
+
+        self.create_ui()
+
+    def create_ui(self):
+        pass
 
 class PomodoroDesklet(Gtk.Window):
     def __init__(self):
