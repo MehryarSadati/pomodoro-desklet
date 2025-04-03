@@ -12,9 +12,10 @@ SOUND = mixer.Sound("beep.wav")
 
 class Setting(Gtk.Dialog):
     def __init__(self, parent, config):
-        super.__init__(title="Setting", transient_for=parent, flag=0)
+        super().__init__(title="Setting", transient_for=parent, flag=0)
         self.config = config
-
+        
+        self.set_default_size(300, 200)
         self.create_ui()
 
     def create_ui(self):
@@ -68,6 +69,8 @@ class PomodoroDesklet(Gtk.Window):
         self.update_time_display()
         self.box.pack_start(self.time_label, True, True, 0)
 
+        button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+
         self.start_button = Gtk.Button(label="Start")
         self.start_button.connect("clicked", self.on_start_clicked)
         self.box.pack_start(self.start_button, True, True, 0)
@@ -76,8 +79,11 @@ class PomodoroDesklet(Gtk.Window):
         self.reset_button.connect("clicked", self.on_reset_clicked)
         self.box.pack_start(self.reset_button, True, True, 0)
 
-        self.setting_button = Gtk.Button.new_from_icone_name("preferences-system-symbolic", Gtk.IconSize.BUTTON)
+        self.setting_button = Gtk.Button.new_from_icon_name("preferences-system-symbolic", Gtk.IconSize.BUTTON)
         self.setting_button.connect("clicked", self.on_settings_clicked)
+        button_box.pack_start(self.setting_button, True, True, 0)
+
+        self.box.pack_start(button_box, True, True, 0)
 
     def update_time_display(self):
         minuets = self.remaining_time // 60
@@ -166,7 +172,12 @@ class PomodoroDesklet(Gtk.Window):
         }
     
     def apply_new_settings(self, new_config):
-        pass
+        self.work_duration = new_config['work_duration'] * 60
+        self.short_break = new_config['short_break']
+        self.long_break = new_config['long_break']
+
+        if not self.is_running:
+            self.reset_timer()
 
 
 if __name__ == "__main__":
