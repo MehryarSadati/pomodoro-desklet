@@ -18,7 +18,23 @@ class Setting(Gtk.Dialog):
         self.create_ui()
 
     def create_ui(self):
-        pass
+        grid = Gtk.Grid(column_spacing=12, row_spacing=12, margin=12)
+
+        #work duration button
+        work_label = Gtk.Label(label="Work Duration (minuets):")
+        self.work_spin = Gtk.SpinButton.new_with_range(1, 60, 1)
+        self.work_spin.set_value(self.config['work_duration'] / 60)
+        
+        #short break button
+        short_break_label = Gtk.Label(label="Short Break Duration (minuets):")
+        self.work_spin = Gtk.SpinButton.new_with_range(1, 60, 1)
+        self.work_spin.set_value(self.config['short_break_duration'] / 60)
+
+        #long break button
+        long_break_label = Gtk.Label(label="Long Break Duration (minuets):")
+        self.work_spin = Gtk.SpinButton.new_with_range(1, 60, 1)
+        self.work_spin.set_value(self.config['long_break_duration'] / 60)
+
 
 class PomodoroDesklet(Gtk.Window):
     def __init__(self):
