@@ -188,7 +188,7 @@ class PomodoroDesklet(Gtk.Window):
         }
     
     def apply_new_settings(self, new_config):
-        self.work_duration = new_config['work_duration'] * 60
+        self.work_duration = new_config['work_duration']
         self.short_break = new_config['short_break']
         self.long_break = new_config['long_break']
 
