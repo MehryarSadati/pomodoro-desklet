@@ -10,12 +10,13 @@ from pygame import mixer
 mixer.init()
 SOUND = mixer.Sound("beep.wav")
 
-class Setting(Gtk.Dialog):
+class SettingsDialog(Gtk.Dialog):
     def __init__(self, parent, config):
-        super().__init__(title="Setting", transient_for=parent, flag=0)
+        super().__init__(title="Settings", transient_for=parent, flag=0)
         self.config = config
         
         self.set_default_size(300, 200)
+        self.set_modal(True)
         self.create_ui()
 
     def create_ui(self):
@@ -29,14 +30,14 @@ class Setting(Gtk.Dialog):
         grid.attach(self.work_spin, 1, 0, 1, 1)
         
         #short break button
-        short_break_label = Gtk.Label(label="Short Break Duration (minuets):", xalign=0)
+        short_break_label = Gtk.Label(label="Short Break (minuets):", xalign=0)
         self.short_break_spin = Gtk.SpinButton.new_with_range(1, 60, 1)
         self.short_break_spin.set_value(self.config['short_break'] / 60)
         grid.attach(short_break_label, 0, 1, 1, 1)
         grid.attach(self.short_break_spin, 1, 1, 1, 1)
 
         #long break button
-        long_break_label = Gtk.Label(label="Long Break Duration (minuets):", xalign=0)
+        long_break_label = Gtk.Label(label="Long Break (minuets):", xalign=0)
         self.long_break_spin = Gtk.SpinButton.new_with_range(1, 60, 1)
         self.long_break_spin.set_value(self.config['long_break'] / 60)
         grid.attach(long_break_label, 0, 2, 1, 1)
@@ -50,8 +51,8 @@ class Setting(Gtk.Dialog):
     def get_updated_config(self):
         return {
             'work_duration' : self.work_spin.get_value() * 60, 
-            'short_break' : self.short_break_spin.get_value() *60,
-            'long_break' : self.long_break_spin.get_value() *60
+            'short_break' : self.short_break_spin.get_value() * 60,
+            'long_break' : self.long_break_spin.get_value() * 60
         }
 
 class PomodoroDesklet(Gtk.Window):
@@ -182,11 +183,11 @@ class PomodoroDesklet(Gtk.Window):
 
     def get_current_config(self):
         return {
-            'work_duration' : self.work_duration,
-            'short_break' : self.short_break, 
-            'long_break' : self.long_break
-        }
-    
+            'work_duration': self.work_duration,
+            'short_break': self.short_break, 
+            'long_break': self.long_break
+        }        
+        
     def apply_new_settings(self, new_config):
         self.work_duration = new_config['work_duration']
         self.short_break = new_config['short_break']
