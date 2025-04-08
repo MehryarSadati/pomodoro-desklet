@@ -17,10 +17,14 @@ class SettingsDialog(Gtk.Dialog):
         
         self.set_default_size(300, 200)
         self.set_modal(True)
-        self.create_ui()
+        self.set_border_width(10)
 
-    def create_ui(self):
-        grid = Gtk.Grid(column_spacing=12, row_spacing=12, margin=12)
+        box = self.get_content_area()
+
+        # grid = Gtk.Grid(column_spacing=12, row_spacing=12, margin=12)
+        grid = Gtk.Grid()
+        grid.set_column_spacing(10)
+        grid.set_row_spacing(10)
 
         #work duration
         work_label = Gtk.Label(label="Work Duration (minuets):", xalign=0)
@@ -43,10 +47,10 @@ class SettingsDialog(Gtk.Dialog):
         grid.attach(long_break_label, 0, 2, 1, 1)
         grid.attach(self.long_break_spin, 1, 2, 1, 1)
 
-        self.get_content_area().add(grid)
+        # self.get_content_area().add(grid)
 
-        self.add_button("_Cancel", Gtk.ResponseType.CANCEL)
-        self.add_button("_Apply", Gtk.ResponseType.APPLY)
+        self.add_button("Cancel", Gtk.ResponseType.CANCEL)
+        self.add_button("OK", Gtk.ResponseType.OK)
 
     def get_updated_config(self):
         return {
