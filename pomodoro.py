@@ -25,6 +25,10 @@ class SettingsDialog(Gtk.Dialog):
         grid = Gtk.Grid()
         grid.set_column_spacing(10)
         grid.set_row_spacing(10)
+        grid.set_margin_top(10)
+        grid.set_margin_bottom(10)
+        grid.set_margin_start(10)
+        grid.set_margin_end(10)        
 
         #work duration
         work_label = Gtk.Label(label="Work Duration (minuets):", xalign=0)
@@ -47,10 +51,13 @@ class SettingsDialog(Gtk.Dialog):
         grid.attach(long_break_label, 0, 2, 1, 1)
         grid.attach(self.long_break_spin, 1, 2, 1, 1)
 
-        # self.get_content_area().add(grid)
+        # content_area().add(grid)
+        box.add(grid)
 
         self.add_button("Cancel", Gtk.ResponseType.CANCEL)
         self.add_button("OK", Gtk.ResponseType.OK)
+
+        self.show_all()
 
     def get_updated_config(self):
         return {
@@ -126,7 +133,7 @@ class PomodoroDesklet(Gtk.Window):
         dialog = SettingsDialog(self, self.get_current_config())
         response = dialog.run()
 
-        if response == Gtk.ResponseType.APPLY:
+        if response == Gtk.ResponseType.OK:
             self.apply_new_settings(dialog.get_updated_config())
 
         dialog.destroy()
