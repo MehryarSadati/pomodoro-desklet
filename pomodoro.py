@@ -21,7 +21,6 @@ class SettingsDialog(Gtk.Dialog):
 
         box = self.get_content_area()
 
-        # grid = Gtk.Grid(column_spacing=12, row_spacing=12, margin=12)
         grid = Gtk.Grid()
         grid.set_column_spacing(10)
         grid.set_row_spacing(10)
@@ -51,7 +50,6 @@ class SettingsDialog(Gtk.Dialog):
         grid.attach(long_break_label, 0, 2, 1, 1)
         grid.attach(self.long_break_spin, 1, 2, 1, 1)
 
-        # content_area().add(grid)
         box.add(grid)
 
         self.add_button("Cancel", Gtk.ResponseType.CANCEL)
@@ -72,7 +70,7 @@ class PomodoroDesklet(Gtk.Window):
 
         Notify.init("Pomodoro Desklet")
 
-        # setting the default mode
+        # the default mode
         self.work_duration = 25 * 60
         self.short_break = 5 * 60
         self.long_break = 20 * 60
