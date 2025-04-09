@@ -116,7 +116,7 @@ class PomodoroDesklet(Gtk.Window):
     def update_time_display(self):
         minutes = self.remaining_time // 60
         seconds = self.remaining_time % 60
-        self.time_label.set_text(f"{minutes:02d}:{seconds:02d}")
+        self.time_label.set_text(f"{int(minutes):02d}:{int(seconds):02d}")
 
     def on_start_clicked(self, widget):
         if not self.is_running:
