@@ -10,11 +10,12 @@ from pygame import mixer
 mixer.init()
 SOUND = mixer.Sound("beep.wav")
 
+
 class SettingsDialog(Gtk.Dialog):
     def __init__(self, parent, config):
         super().__init__(title="Settings", transient_for=parent, flags=0)
         self.config = config
-        
+
         self.set_default_size(300, 200)
         self.set_modal(True)
         self.set_border_width(10)
@@ -27,26 +28,26 @@ class SettingsDialog(Gtk.Dialog):
         grid.set_margin_top(10)
         grid.set_margin_bottom(10)
         grid.set_margin_start(10)
-        grid.set_margin_end(10)        
+        grid.set_margin_end(10)
 
-        #work duration
+        # work duration
         work_label = Gtk.Label(label="Work Duration (minuets):", xalign=0)
         self.work_spin = Gtk.SpinButton.new_with_range(1, 60, 1)
-        self.work_spin.set_value(self.config['work_duration'] / 60)
+        self.work_spin.set_value(self.config["work_duration"] / 60)
         grid.attach(work_label, 0, 0, 1, 1)
         grid.attach(self.work_spin, 1, 0, 1, 1)
-        
-        #short break button
+
+        # short break button
         short_break_label = Gtk.Label(label="Short Break (minuets):", xalign=0)
         self.short_break_spin = Gtk.SpinButton.new_with_range(1, 60, 1)
-        self.short_break_spin.set_value(self.config['short_break'] / 60)
+        self.short_break_spin.set_value(self.config["short_break"] / 60)
         grid.attach(short_break_label, 0, 1, 1, 1)
         grid.attach(self.short_break_spin, 1, 1, 1, 1)
 
-        #long break button
+        # long break button
         long_break_label = Gtk.Label(label="Long Break (minuets):", xalign=0)
         self.long_break_spin = Gtk.SpinButton.new_with_range(1, 60, 1)
-        self.long_break_spin.set_value(self.config['long_break'] / 60)
+        self.long_break_spin.set_value(self.config["long_break"] / 60)
         grid.attach(long_break_label, 0, 2, 1, 1)
         grid.attach(self.long_break_spin, 1, 2, 1, 1)
 
@@ -59,10 +60,11 @@ class SettingsDialog(Gtk.Dialog):
 
     def get_updated_config(self):
         return {
-            'work_duration' : self.work_spin.get_value() * 60, 
-            'short_break' : self.short_break_spin.get_value() * 60,
-            'long_break' : self.long_break_spin.get_value() * 60
+            "work_duration": self.work_spin.get_value() * 60,
+            "short_break": self.short_break_spin.get_value() * 60,
+            "long_break": self.long_break_spin.get_value() * 60,
         }
+
 
 class PomodoroDesklet(Gtk.Window):
     def __init__(self):
@@ -105,7 +107,9 @@ class PomodoroDesklet(Gtk.Window):
         self.reset_button.connect("clicked", self.on_reset_clicked)
         self.box.pack_start(self.reset_button, True, True, 0)
 
-        self.setting_button = Gtk.Button.new_from_icon_name("preferences-system-symbolic", Gtk.IconSize.BUTTON)
+        self.setting_button = Gtk.Button.new_from_icon_name(
+            "preferences-system-symbolic", Gtk.IconSize.BUTTON
+        )
         self.setting_button.connect("clicked", self.on_settings_clicked)
         button_box.pack_start(self.setting_button, True, True, 0)
 
@@ -192,15 +196,15 @@ class PomodoroDesklet(Gtk.Window):
 
     def get_current_config(self):
         return {
-            'work_duration': self.work_duration,
-            'short_break': self.short_break, 
-            'long_break': self.long_break
+            "work_duration": self.work_duration,
+            "short_break": self.short_break,
+            "long_break": self.long_break,
         }
-    
+
     def apply_new_settings(self, new_config):
-        self.work_duration = new_config['work_duration']
-        self.short_break = new_config['short_break']
-        self.long_break = new_config['long_break']
+        self.work_duration = new_config["work_duration"]
+        self.short_break = new_config["short_break"]
+        self.long_break = new_config["long_break"]
 
         if not self.is_running:
             self.reset_timer()
